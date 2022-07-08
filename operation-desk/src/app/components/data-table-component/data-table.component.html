@@ -1,0 +1,137 @@
+<div id="main">
+
+<!--Transaction Table Added---->
+<div id="transactionTable">
+  <div class="mat-elevation-z8">
+
+
+    <!--Filters Added---->
+    <div class="filters">
+
+      <!--Filter Added---->
+      <mat-form-field appearance="standard" style="margin-left: 18px;margin-top:18px;">
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search columns" #input>
+      </mat-form-field>
+
+
+
+
+      <!--Select Date filter Added-->
+      <mat-form-field appearance="standard" style="margin-right: 18px;margin-top:18px;">
+        <mat-label>Time Duration</mat-label>
+        <mat-select #clientValue (selectionChange)="dateFilter($event.value)">
+          <mat-option *ngFor="let time of timePeriods" [value]="time.value">
+            {{time.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+    <!--Data Table Added---->
+    <table mat-table [dataSource]="dataSource ">
+
+
+
+
+      <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.id}} </td>
+      </ng-container>
+
+
+
+      <!-- Job Name Column -->
+      <ng-container matColumnDef="job_NM">
+        <th mat-header-cell *matHeaderCellDef> Transaction Name </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.job_NM}} </td>
+      </ng-container>
+
+      <!-- Start Time Column -->
+      <ng-container matColumnDef="job_START_TS">
+        <th mat-header-cell *matHeaderCellDef> Start Time </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.job_START_TS}} </td>
+      </ng-container>
+
+      <!-- End Time Column -->
+      <ng-container matColumnDef="job_END_TS">
+        <th mat-header-cell *matHeaderCellDef> End Time </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.job_END_TS}} </td>
+      </ng-container>
+
+      <!-- Duration Column -->
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef> Duration </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.duration}} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let employee"> {{employee.status}} </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getDetails(row);"
+        onclick=" document.getElementById('main').style.display='none';document.getElementById('detailBox').style.display = 'flex';">
+      </tr>
+    </table>
+
+
+
+    <!--Paginator Added-->
+    <mat-paginator [pageSizeOptions]="[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]" showFirstLastButtons
+      aria-label="Select page of employee data">
+    </mat-paginator>
+
+
+
+  </div>
+</div>
+
+
+
+<!--Transaction Chart Added---->
+<div class="mat-elevation-z8" style="margin: 48px;padding:24px;">
+  <canvas baseChart [data]="transactionData" [type]="'bar'" [options]="chartOptions">
+  </canvas>
+</div>
+
+
+<!--Transaction Honeycomb Added---->
+
+
+<div class="mat-elevation-z8" id="container" style="margin: 48px;padding:24px;">
+
+
+</div>
+
+</div>
+
+
+<!--Detail Box 2-->
+<div id="detailBox">
+  <div id="box-head"><div id="close-btn" onclick=" document.getElementById('main').style.display='flex';document.getElementById('detailBox').style.display = 'none';"></div></div>
+  <div id="box-body">
+    
+      <p><span class="title">Job Name:</span><span class="value"> {{Detailed_Data[0].jobname}}</span></p>
+      <p><span class="title">Job Id: </span><span class="value"> {{Detailed_Data[0].jobid}}</span></p>
+      <p><span class="title">Business Date: </span><span class="value"> {{Detailed_Data[0].businessdate}}</span></p>
+      <p><span class="title">Status Code: </span><span class="value"> {{Detailed_Data[0].jobstatuscode}}</span></p>
+      <p><span class="title">Step Name: </span><span class="value"> {{Detailed_Data[0].jobstepname}}</span></p>
+      <p><span class="title">Step Status: </span><span class="value"> {{Detailed_Data[0].jonstepstatus}}</span></p>
+      <p><span class="title">MFD TRN Number: </span><span class="value"> {{Detailed_Data[0].mfdtrnno}}</span></p>
+      <p><span class="title">File Name: </span><span class="value"> {{Detailed_Data[0].filename}}</span></p>
+      <p><span class="title">Job Data Record Text: </span><span class="value"> {{Detailed_Data[0].jobdatarecordtext}}</span></p>
+      <p><span class="title">Customer Reference Number: </span><span class="value"> {{Detailed_Data[0].custrefno}}</span></p>
+      <p><span class="title">Individual TXN Id: </span><span class="value"> {{Detailed_Data[0].indivtxnid}}</span></p>
+  
+  </div>
+ </div>
